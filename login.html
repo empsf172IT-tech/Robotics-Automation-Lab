@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" class="dark" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Login - Robotics & Automation Lab</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="icon" href="assets/images/ralab_logo_1790572566323.jpg" type="image/jpeg">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        dark: {
+                            DEFAULT: '#0a0a0f',
+                            surface: '#13131c',
+                            border: '#2a2a35'
+                        },
+                        brand: {
+                            cyan: '#00f0ff',
+                            violet: '#8a2be2',
+                            amber: '#ffaa00',
+                            silver: '#e0e0e0'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #0a0a0f;
+            color: #e0e0e0;
+        }
+        .glass-panel {
+            background: rgba(19, 19, 28, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .text-gradient {
+            background: linear-gradient(to right, #00f0ff, #8a2be2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex items-center justify-center relative overflow-hidden selection:bg-brand-cyan selection:text-dark">
+    
+    <!-- Background -->
+    <div class="absolute inset-0 z-0">
+        <img src="assets/images/hero_robotics_1790571684167.jpg" alt="Background" class="w-full h-full object-cover opacity-30">
+        <div class="absolute inset-0 bg-gradient-to-b from-dark/90 via-dark/80 to-dark"></div>
+        <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdHRlcm4gaWQ9InNtYWxsR3JpZCIgd2lkdGg9IjEwIiBoZWlnaHQ9IjEwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNMTAgMEwwIDBMMCAxMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMDMpIiBzdHJva2Utd2lkdGg9IjAuNSIvPjwvcGF0dGVybj48cmVjdCB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIGZpbGw9InVybCgjc21hbGxHcmlkKSIvPjxwYXRoIGQ9Ik00MCAwTDAgMEwwIDQwIiBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4wNikiIHN0cm9rZS13aWR0aD0iMSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNncmlkKSIvPjwvc3ZnPg==')] opacity-50 z-0"></div>
+    </div>
+
+    <!-- Login Container -->
+    <div class="relative z-10 w-full max-w-md px-4 sm:px-0">
+        
+        <!-- Logo -->
+        <div class="text-center mb-8 flex flex-col items-center">
+            <a href="index.html" class="inline-flex items-center font-display font-bold text-2xl sm:text-3xl tracking-wider text-white hover:opacity-80 transition-opacity whitespace-nowrap">
+                <img src="assets/images/ralab_logo_1790572566323.jpg" alt="R&A Lab Logo" class="h-12 w-12 rounded-xl mr-4 object-cover shadow-[0_0_20px_rgba(0,240,255,0.3)]">
+                R<span class="text-brand-cyan">&</span>A LAB
+            </a>
+            <p class="text-gray-400 text-sm mt-4 font-mono tracking-widest">SECURE CLIENT PORTAL</p>
+        </div>
+
+        <!-- Login Form -->
+        <div class="glass-panel p-8 sm:p-10 rounded-2xl border-t border-brand-cyan/30 shadow-[0_0_40px_rgba(0,240,255,0.05)]">
+            <h2 class="text-2xl font-bold text-white mb-6">System Access</h2>
+            
+            <form action="#" method="POST" class="space-y-6">
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-400 mb-2">Operator ID / Email</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                            <i class="fas fa-user text-gray-500"></i>
+                        </div>
+                        <input type="email" id="email" class="w-full bg-dark/50 border border-white/10 rounded-lg pl-11 pr-4 py-3 text-white focus:outline-none focus:border-brand-cyan focus:ring-1 focus:ring-brand-cyan transition-colors" placeholder="operator@company.com" required>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="flex justify-between items-center mb-2">
+                        <label for="password" class="block text-sm font-medium text-gray-400">Passkey</label>
+                        <a href="#" class="text-xs text-brand-cyan hover:text-white transition-colors">Forgot Passkey?</a>
+                    </div>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                            <i class="fas fa-lock text-gray-500"></i>
+                        </div>
+                        <input type="password" id="password" class="w-full bg-dark/50 border border-white/10 rounded-lg pl-11 pr-4 py-3 text-white focus:outline-none focus:border-brand-cyan focus:ring-1 focus:ring-brand-cyan transition-colors" placeholder="••••••••" required>
+                    </div>
+                </div>
+
+                <div class="flex items-center">
+                    <input type="checkbox" id="remember" class="h-4 w-4 rounded border-gray-600 bg-dark/50 text-brand-cyan focus:ring-brand-cyan focus:ring-offset-dark">
+                    <label for="remember" class="ml-2 block text-sm text-gray-400">
+                        Maintain secure connection
+                    </label>
+                </div>
+
+                <button type="button" class="w-full py-3 px-4 bg-brand-cyan text-dark font-bold rounded-lg hover:bg-white hover:shadow-[0_0_20px_rgba(0,240,255,0.4)] transition-all duration-300 flex justify-center items-center gap-2">
+                    <i class="fas fa-sign-in-alt"></i> Initialize Session
+                </button>
+            </form>
+            
+            <div class="mt-8 pt-6 border-t border-white/10 text-center">
+                <a href="index.html" class="text-sm text-gray-500 hover:text-white transition-colors inline-flex items-center gap-2">
+                    <i class="fas fa-arrow-left"></i> Return to Main Interface
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

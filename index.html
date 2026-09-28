@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth dark" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Robotics & Automation Lab</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="icon" href="assets/images/ralab_logo_1790572566323.jpg" type="image/jpeg">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        dark: {
+                            DEFAULT: '#0a0a0f',
+                            surface: '#13131c',
+                            border: '#2a2a35'
+                        },
+                        brand: {
+                            cyan: '#00f0ff',
+                            violet: '#8a2be2',
+                            amber: '#ffaa00',
+                            silver: '#e0e0e0'
+                        }
+                    },
+                    backgroundImage: {
+                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #0a0a0f;
+            color: #e0e0e0;
+        }
+        .glass-panel {
+            background: rgba(19, 19, 28, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .text-gradient {
+            background: linear-gradient(to right, #00f0ff, #8a2be2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0a0a0f; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2a2a35; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #00f0ff; 
+        }
+    </style>
+</head>
+<body class="antialiased overflow-x-hidden selection:bg-brand-cyan selection:text-dark">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 glass-panel border-b border-white/10 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex-1 flex items-center cursor-pointer" onclick="window.scrollTo(0,0)">
+                    <img src="assets/images/ralab_logo_1790572566323.jpg" alt="R&A Lab Logo" class="h-10 w-10 rounded-lg mr-3 object-cover shadow-[0_0_15px_rgba(0,240,255,0.2)]">
+                    <span class="font-display font-bold text-xl md:text-2xl tracking-wider text-white whitespace-nowrap">
+                        R<span class="text-brand-cyan">&</span>A LAB
+                    </span>
+                </div>
+                
+                <div class="hidden lg:flex flex-1 justify-center items-center space-x-8">
+                    <a href="#home" class="text-sm font-medium hover:text-brand-cyan transition-colors">Home</a>
+                    <a href="#intelligence" class="text-sm font-medium hover:text-brand-cyan transition-colors">Intelligence</a>
+                    <a href="#capabilities" class="text-sm font-medium hover:text-brand-cyan transition-colors">Capabilities</a>
+                    <a href="#systems" class="text-sm font-medium hover:text-brand-cyan transition-colors">Systems</a>
+                    <a href="#innovation" class="text-sm font-medium hover:text-brand-cyan transition-colors">Innovation</a>
+                    <a href="#contact" class="text-sm font-medium hover:text-brand-cyan transition-colors">Contact</a>
+                </div>
+
+                <div class="hidden lg:flex flex-1 justify-end items-center">
+                    <a href="login.html" class="px-5 py-2 bg-brand-cyan/10 text-brand-cyan text-sm font-bold rounded border border-brand-cyan/30 hover:bg-brand-cyan hover:text-dark transition-all duration-300 flex items-center gap-2">
+                        <i class="fas fa-user-lock"></i> Client Login
+                    </a>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="lg:hidden flex flex-1 justify-end items-center">
+                    <button id="mobile-menu-btn" class="text-gray-300 hover:text-white focus:outline-none">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="hidden lg:hidden glass-panel border-t border-white/10 absolute w-full">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#home" class="block px-3 py-2 text-base font-medium hover:text-brand-cyan">Home</a>
+                <a href="#intelligence" class="block px-3 py-2 text-base font-medium hover:text-brand-cyan">Intelligence</a>
+                <a href="#capabilities" class="block px-3 py-2 text-base font-medium hover:text-brand-cyan">Capabilities</a>
+                <a href="#systems" class="block px-3 py-2 text-base font-medium hover:text-brand-cyan">Systems</a>
+                <a href="#innovation" class="block px-3 py-2 text-base font-medium hover:text-brand-cyan">Innovation</a>
+                <a href="#contact" class="block px-3 py-2 text-base font-medium hover:text-brand-cyan">Contact</a>
+                <div class="px-3 py-4 mt-2 border-t border-white/10">
+                    <a href="login.html" class="block w-full py-2 text-center text-base font-bold bg-brand-cyan/10 text-brand-cyan border border-brand-cyan/30 rounded hover:bg-brand-cyan hover:text-dark transition-all duration-300">
+                        <i class="fas fa-user-lock mr-2"></i> Client Login
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="relative h-screen flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <img src="assets/images/hero_robotics_1790571684167.jpg" alt="Advanced Robotics Lab" class="w-full h-full object-cover opacity-60">
+            <div class="absolute inset-0 bg-gradient-to-b from-dark/80 via-dark/50 to-dark"></div>
+            <!-- Grid overlay -->
+            <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdHRlcm4gaWQ9InNtYWxsR3JpZCIgd2lkdGg9IjEwIiBoZWlnaHQ9IjEwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNMTAgMEwwIDBMMCAxMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMDMpIiBzdHJva2Utd2lkdGg9IjAuNSIvPjwvcGF0dGVybj48cmVjdCB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIGZpbGw9InVybCgjc21hbGxHcmlkKSIvPjxwYXRoIGQ9Ik00MCAwTDAgMEwwIDQwIiBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4wNikiIHN0cm9rZS13aWR0aD0iMSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNncmlkKSIvPjwvc3ZnPg==')] opacity-50 z-0"></div>
+        </div>
+        
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center mt-16 reveal active">
+            <div class="inline-flex items-center space-x-2 px-4 py-2 rounded-full border border-brand-cyan/30 bg-brand-cyan/10 backdrop-blur-sm mb-8">
+                <span class="w-2 h-2 rounded-full bg-brand-cyan animate-pulse"></span>
+                <span class="text-brand-cyan text-sm font-medium tracking-wide">SYSTEMS ONLINE // 2026</span>
+            </div>
+            <h1 class="font-display text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-6 leading-tight">
+                Engineering Machines That <br class="hidden md:block" />
+                <span class="text-gradient">Move Intelligence Forward</span>
+            </h1>
+            <p class="max-w-2xl mx-auto text-lg md:text-xl text-gray-400 mb-10">
+                Pioneering the next generation of industrial robotics, autonomous systems, and intelligent manufacturing solutions for a smarter tomorrow.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-6">
+                <a href="#systems" class="px-8 py-4 bg-brand-cyan text-dark font-semibold rounded hover:bg-white transition-all duration-300 w-full sm:w-auto text-center transform hover:-translate-y-1 shadow-[0_0_20px_rgba(0,240,255,0.3)]">
+                    Explore Our Systems
+                </a>
+                <a href="#capabilities" class="px-8 py-4 border border-white/20 text-white font-semibold rounded hover:bg-white/5 transition-all duration-300 w-full sm:w-auto text-center glass-panel">
+                    View Capabilities
+                </a>
+            </div>
+        </div>
+
+        <!-- Scroll indicator -->
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-10 animate-bounce">
+            <a href="#intelligence" class="text-white/50 hover:text-brand-cyan transition-colors">
+                <i class="fas fa-chevron-down text-2xl"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- Intelligent Automation Introduction -->
+    <section id="intelligence" class="py-24 relative overflow-hidden">
+        <!-- Background decorative elements -->
+        <div class="absolute top-0 right-0 w-1/3 h-full bg-brand-violet/5 blur-[150px] rounded-full pointer-events-none"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div class="reveal order-2 lg:order-1 relative">
+                    <div class="absolute -inset-1 bg-gradient-to-r from-brand-cyan to-brand-violet rounded-lg blur opacity-25"></div>
+                    <img src="assets/images/machine_vision_1790571696453.jpg" alt="Machine Vision" class="relative rounded-lg shadow-2xl w-full object-cover border border-white/10">
+                    
+                    <!-- Decorative overlay UI -->
+                    <div class="absolute top-4 right-4 glass-panel px-3 py-1 rounded text-xs font-mono text-brand-cyan border border-brand-cyan/20">
+                        SCAN_ACTIVE
+                    </div>
+                    <div class="absolute bottom-4 left-4 glass-panel px-3 py-1 rounded text-xs font-mono text-white border border-white/20">
+                        ACCURACY: 99.98%
+                    </div>
+                </div>
+                
+                <div class="reveal order-1 lg:order-2">
+                    <h2 class="font-display text-3xl md:text-5xl font-bold mb-6">The Convergence of <br/><span class="text-brand-cyan">Sensing & Autonomy</span></h2>
+                    <p class="text-gray-400 text-lg mb-8 leading-relaxed">
+                        We design systems that perceive their environment with flawless precision and act with decisive intelligence. Our proprietary machine vision algorithms combined with robust industrial hardware redefine what automated workflows can achieve.
+                    </p>
+                    
+                    <div class="grid grid-cols-2 gap-6">
+                        <div class="border-l-2 border-brand-cyan pl-4">
+                            <h4 class="text-white font-semibold text-lg mb-1">Autonomous Operations</h4>
+                            <p class="text-gray-500 text-sm">Self-optimizing workflows</p>
+                        </div>
+                        <div class="border-l-2 border-brand-violet pl-4">
+                            <h4 class="text-white font-semibold text-lg mb-1">Precision Robotics</h4>
+                            <p class="text-gray-500 text-sm">Sub-millimeter accuracy</p>
+                        </div>
+                        <div class="border-l-2 border-brand-amber pl-4">
+                            <h4 class="text-white font-semibold text-lg mb-1">Smart Manufacturing</h4>
+                            <p class="text-gray-500 text-sm">Adaptive production lines</p>
+                        </div>
+                        <div class="border-l-2 border-white/30 pl-4">
+                            <h4 class="text-white font-semibold text-lg mb-1">Intelligent Automation</h4>
+                            <p class="text-gray-500 text-sm">End-to-end process control</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Core Capabilities -->
+    <section id="capabilities" class="py-24 bg-dark-surface relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+                <h2 class="font-display text-4xl font-bold mb-4">Core <span class="text-gradient">Capabilities</span></h2>
+                <p class="text-gray-400">Comprehensive robotics and automation solutions engineered for scale, reliability, and unparalleled performance.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Capability 1 -->
+                <div class="glass-panel p-8 rounded-xl border border-white/5 hover:border-brand-cyan/50 transition-all duration-300 group reveal text-center">
+                    <div class="w-14 h-14 mx-auto bg-brand-cyan/10 rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-robot text-brand-cyan text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-white mb-3">Industrial Robotics</h3>
+                    <p class="text-gray-400 text-sm">Heavy-duty, high-speed robotic arms designed for welding, assembly, and material handling with extreme durability.</p>
+                </div>
+
+                <!-- Capability 2 -->
+                <div class="glass-panel p-8 rounded-xl border border-white/5 hover:border-brand-violet/50 transition-all duration-300 group reveal text-center" style="transition-delay: 100ms">
+                    <div class="w-14 h-14 mx-auto bg-brand-violet/10 rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-boxes text-brand-violet text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-white mb-3">Warehouse Automation</h3>
+                    <p class="text-gray-400 text-sm">Autonomous mobile robots (AMRs) and automated storage/retrieval systems that optimize logistics and fulfillment.</p>
+                </div>
+
+                <!-- Capability 3 -->
+                <div class="glass-panel p-8 rounded-xl border border-white/5 hover:border-brand-amber/50 transition-all duration-300 group reveal text-center" style="transition-delay: 200ms">
+                    <div class="w-14 h-14 mx-auto bg-brand-amber/10 rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-brain text-brand-amber text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-white mb-3">Autonomous Systems</h3>
+                    <p class="text-gray-400 text-sm">Self-driving industrial vehicles and drone inspection units equipped with advanced LiDAR and spatial awareness.</p>
+                </div>
+
+                <!-- Capability 4 -->
+                <div class="glass-panel p-8 rounded-xl border border-white/5 hover:border-white/50 transition-all duration-300 group reveal text-center" style="transition-delay: 300ms">
+                    <div class="w-14 h-14 mx-auto bg-white/5 rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-microchip text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-white mb-3">Smart Machines</h3>
+                    <p class="text-gray-400 text-sm">Connected equipment featuring predictive maintenance, digital twin integration, and real-time operational telemetry.</p>
+                </div>
+
+                <!-- Capability 5 -->
+                <div class="glass-panel p-8 rounded-xl border border-white/5 hover:border-brand-cyan/50 transition-all duration-300 group reveal text-center" style="transition-delay: 400ms">
+                    <div class="w-14 h-14 mx-auto bg-brand-cyan/10 rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-network-wired text-brand-cyan text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-white mb-3">Robotic Process Automation</h3>
+                    <p class="text-gray-400 text-sm">Bridging physical hardware and enterprise software through intelligent orchestration and automated data flow.</p>
+                </div>
+
+                <!-- Capability 6 -->
+                <div class="glass-panel p-8 rounded-xl border border-white/5 hover:border-brand-violet/50 transition-all duration-300 group reveal text-center" style="transition-delay: 500ms">
+                    <div class="w-14 h-14 mx-auto bg-brand-violet/10 rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-eye text-brand-violet text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-white mb-3">Machine Vision & Sensing</h3>
+                    <p class="text-gray-400 text-sm">High-speed optical inspection, defect detection, and precise dimensional measuring using deep learning models.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Robotics Systems Showcase -->
+    <section id="systems" class="py-24 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="mb-16 reveal">
+                <h2 class="font-display text-4xl font-bold mb-4">Systems <span class="text-gradient">Showcase</span></h2>
+                <p class="text-gray-400 max-w-2xl">Explore our flagship deployments across manufacturing and logistics environments.</p>
+            </div>
+
+            <div class="space-y-24">
+                <!-- Showcase 1 -->
+                <div class="flex flex-col lg:flex-row items-center gap-12 reveal">
+                    <div class="w-full lg:w-3/5 relative group">
+                        <div class="absolute -inset-2 bg-gradient-to-r from-brand-cyan to-transparent opacity-0 group-hover:opacity-20 transition-opacity duration-500 rounded-xl blur-lg"></div>
+                        <img src="assets/images/robotic_assembly_1790571708654.jpg" alt="Robotic Assembly" class="relative rounded-xl w-full h-[400px] object-cover border border-white/10 shadow-2xl">
+                        
+                        <!-- Tech labels -->
+                        <div class="absolute top-6 left-6 bg-dark/80 backdrop-blur px-3 py-1 text-xs font-mono border border-white/10 rounded text-gray-300">
+                            UNIT: SYNCHRO-ARM-X4
+                        </div>
+                    </div>
+                    <div class="w-full lg:w-2/5">
+                        <h3 class="text-3xl font-display font-bold text-white mb-4">High-Speed Assembly Automation</h3>
+                        <p class="text-gray-400 mb-6">A synchronized multi-arm setup capable of complex manufacturing tasks. Features collision avoidance, sub-millimeter precision, and dynamic load balancing.</p>
+                        <ul class="space-y-3 mb-8">
+                            <li class="flex items-center text-sm text-gray-300"><i class="fas fa-check text-brand-cyan mr-3"></i> 6-Axis Articulation</li>
+                            <li class="flex items-center text-sm text-gray-300"><i class="fas fa-check text-brand-cyan mr-3"></i> Force-Torque Sensing</li>
+                            <li class="flex items-center text-sm text-gray-300"><i class="fas fa-check text-brand-cyan mr-3"></i> Collaborative Mode Support</li>
+                        </ul>
+                        <button class="text-brand-cyan font-semibold hover:text-white transition-colors flex items-center">
+                            View Specifications <i class="fas fa-arrow-right ml-2 text-sm"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Showcase 2 -->
+                <div class="flex flex-col lg:flex-row-reverse items-center gap-12 reveal">
+                    <div class="w-full lg:w-3/5 relative group">
+                        <div class="absolute -inset-2 bg-gradient-to-l from-brand-violet to-transparent opacity-0 group-hover:opacity-20 transition-opacity duration-500 rounded-xl blur-lg"></div>
+                        <img src="assets/images/warehouse_automation_1790571734019.jpg" alt="Warehouse Automation" class="relative rounded-xl w-full h-[400px] object-cover border border-white/10 shadow-2xl">
+                        
+                        <div class="absolute bottom-6 right-6 bg-dark/80 backdrop-blur px-3 py-1 text-xs font-mono border border-white/10 rounded text-gray-300">
+                            SWARM_STATUS: OPTIMAL
+                        </div>
+                    </div>
+                    <div class="w-full lg:w-2/5">
+                        <h3 class="text-3xl font-display font-bold text-white mb-4">Autonomous Fulfillment Fleet</h3>
+                        <p class="text-gray-400 mb-6">Intelligent mobile robots navigating complex warehouse environments. They dynamically route around obstacles, prioritize urgent orders, and self-charge.</p>
+                        <ul class="space-y-3 mb-8">
+                            <li class="flex items-center text-sm text-gray-300"><i class="fas fa-check text-brand-violet mr-3"></i> LiDAR Navigation</li>
+                            <li class="flex items-center text-sm text-gray-300"><i class="fas fa-check text-brand-violet mr-3"></i> Swarm Intelligence Logic</li>
+                            <li class="flex items-center text-sm text-gray-300"><i class="fas fa-check text-brand-violet mr-3"></i> 1000kg Payload Capacity</li>
+                        </ul>
+                        <button class="text-brand-violet font-semibold hover:text-white transition-colors flex items-center">
+                            View Specifications <i class="fas fa-arrow-right ml-2 text-sm"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Automation Intelligence / How it Works -->
+    <section class="py-24 bg-dark-surface relative overflow-hidden border-y border-white/5">
+        <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdHRlcm4gaWQ9InNtYWxsR3JpZCIgd2lkdGg9IjEwIiBoZWlnaHQ9IjEwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNMTAgMEwwIDBMMCAxMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMDMpIiBzdHJva2Utd2lkdGg9IjAuNSIvPjwvcGF0dGVybj48cmVjdCB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIGZpbGw9InVybCgjc21hbGxHcmlkKSIvPjxwYXRoIGQ9Ik00MCAwTDAgMEwwIDQwIiBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4wNikiIHN0cm9rZS13aWR0aD0iMSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNncmlkKSIvPjwvc3ZnPg==')] opacity-30"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            <h2 class="font-display text-4xl font-bold mb-16 reveal">The Automation <span class="text-gradient">Ecosystem</span></h2>
+            
+            <!-- Process Visualization -->
+            <div class="flex flex-col md:flex-row justify-between items-center relative space-y-8 md:space-y-0 reveal">
+                <!-- Connecting Line (Desktop) -->
+                <div class="hidden md:block absolute top-1/2 left-0 w-full h-0.5 bg-white/10 -translate-y-1/2 z-0"></div>
+                
+                <!-- Node 1 -->
+                <div class="relative z-10 flex flex-col items-center group">
+                    <div class="w-20 h-20 rounded-full bg-dark border-2 border-brand-cyan flex items-center justify-center mb-4 group-hover:shadow-[0_0_20px_rgba(0,240,255,0.4)] transition-all">
+                        <i class="fas fa-satellite-dish text-brand-cyan text-xl"></i>
+                    </div>
+                    <h4 class="font-bold text-white mb-1">Sense</h4>
+                    <p class="text-xs text-gray-500 max-w-[120px]">IoT & Vision Sensors</p>
+                </div>
+
+                <!-- Node 2 -->
+                <div class="relative z-10 flex flex-col items-center group">
+                    <div class="w-20 h-20 rounded-full bg-dark border-2 border-brand-violet flex items-center justify-center mb-4 group-hover:shadow-[0_0_20px_rgba(138,43,226,0.4)] transition-all">
+                        <i class="fas fa-server text-brand-violet text-xl"></i>
+                    </div>
+                    <h4 class="font-bold text-white mb-1">Analyze</h4>
+                    <p class="text-xs text-gray-500 max-w-[120px]">Edge Computing</p>
+                </div>
+
+                <!-- Node 3 -->
+                <div class="relative z-10 flex flex-col items-center group">
+                    <div class="w-20 h-20 rounded-full bg-dark border-2 border-brand-amber flex items-center justify-center mb-4 group-hover:shadow-[0_0_20px_rgba(255,170,0,0.4)] transition-all">
+                        <i class="fas fa-microchip text-brand-amber text-xl"></i>
+                    </div>
+                    <h4 class="font-bold text-white mb-1">Decide</h4>
+                    <p class="text-xs text-gray-500 max-w-[120px]">AI Logic Engine</p>
+                </div>
+
+                <!-- Node 4 -->
+                <div class="relative z-10 flex flex-col items-center group">
+                    <div class="w-20 h-20 rounded-full bg-dark border-2 border-brand-cyan flex items-center justify-center mb-4 group-hover:shadow-[0_0_20px_rgba(0,240,255,0.4)] transition-all">
+                        <i class="fas fa-cogs text-brand-cyan text-xl"></i>
+                    </div>
+                    <h4 class="font-bold text-white mb-1">Act</h4>
+                    <p class="text-xs text-gray-500 max-w-[120px]">Robotics Execution</p>
+                </div>
+
+                <!-- Node 5 -->
+                <div class="relative z-10 flex flex-col items-center group">
+                    <div class="w-20 h-20 rounded-full bg-dark border-2 border-white flex items-center justify-center mb-4 group-hover:shadow-[0_0_20px_rgba(255,255,255,0.4)] transition-all">
+                        <i class="fas fa-chart-line text-white text-xl"></i>
+                    </div>
+                    <h4 class="font-bold text-white mb-1">Optimize</h4>
+                    <p class="text-xs text-gray-500 max-w-[120px]">Machine Learning</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Innovation Lab / Future Machines -->
+    <section id="innovation" class="py-24 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="relative rounded-2xl overflow-hidden glass-panel border border-white/10 reveal">
+                <img src="assets/images/future_prototype_1790571723563.jpg" alt="Innovation Lab Prototype" class="w-full h-[600px] object-cover opacity-80 mix-blend-screen">
+                <div class="absolute inset-0 bg-gradient-to-t from-dark via-dark/50 to-transparent"></div>
+                
+                <div class="absolute bottom-0 left-0 p-8 md:p-16 w-full lg:w-2/3">
+                    <span class="text-brand-amber font-mono text-sm tracking-widest mb-4 block">R&D LABORATORY // CONFIDENTIAL</span>
+                    <h2 class="font-display text-4xl md:text-5xl font-bold text-white mb-6">From Prototype to <br/><span class="text-gradient">Autonomous Production</span></h2>
+                    <p class="text-gray-300 text-lg mb-8 max-w-xl">
+                        Our innovation wing develops the next paradigm of industrial machinery. We are currently testing cognitive robots capable of zero-shot learning and self-healing mechanical frameworks.
+                    </p>
+                    <a href="#contact" class="inline-flex items-center space-x-2 text-white font-semibold hover:text-brand-amber transition-colors border-b border-brand-amber pb-1">
+                        <span>Join Early Access Program</span>
+                        <i class="fas fa-arrow-right text-sm"></i>
+                    </a>
+                </div>
+                
+                <!-- Decorative HUD elements -->
+                <div class="absolute top-8 right-8 text-right hidden md:block">
+                    <div class="text-xs font-mono text-brand-cyan mb-1">PROTOTYPE: X-9 ALPHA</div>
+                    <div class="text-xs font-mono text-gray-500">SYSTEM: ONLINE</div>
+                    <div class="w-32 h-px bg-white/20 my-2 ml-auto"></div>
+                    <div class="flex space-x-1 justify-end">
+                        <div class="w-1 h-4 bg-brand-cyan animate-pulse"></div>
+                        <div class="w-1 h-3 bg-brand-cyan/70"></div>
+                        <div class="w-1 h-5 bg-brand-cyan"></div>
+                        <div class="w-1 h-2 bg-brand-cyan/50"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA & Contact -->
+    <section id="contact" class="py-24 bg-dark relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-b from-transparent to-brand-cyan/5 pointer-events-none"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+                <div class="reveal">
+                    <h2 class="font-display text-4xl md:text-5xl font-bold mb-6 text-white">Build Smarter, Faster, <br/><span class="text-brand-cyan">Autonomous Operations.</span></h2>
+                    <p class="text-gray-400 text-lg mb-10">
+                        Whether you are outfitting a new smart factory or upgrading legacy logistics, our engineering team is ready to design your next-generation automation system.
+                    </p>
+                    
+                    <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 mb-12">
+                        <button class="px-6 py-3 bg-white text-dark font-semibold rounded hover:bg-gray-200 transition-colors shadow-lg">
+                            Start an Automation Project
+                        </button>
+                        <button class="px-6 py-3 border border-white/20 text-white font-semibold rounded hover:bg-white/5 transition-colors">
+                            Talk to Our Robotics Team
+                        </button>
+                    </div>
+                    
+                    <div class="space-y-4 mb-8">
+                        <div class="flex items-center text-gray-400">
+                            <i class="fas fa-map-marker-alt w-6 text-brand-cyan"></i>
+                            <span>Global HQ: Silicon Valley Automation District</span>
+                        </div>
+                        <div class="flex items-center text-gray-400">
+                            <i class="fas fa-envelope w-6 text-brand-cyan"></i>
+                            <span>engineering@ralab.tech</span>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8">
+                        <h4 class="text-white font-semibold mb-4">Follow Our Progress</h4>
+                        <div class="flex space-x-4">
+                            <a href="#" class="w-10 h-10 rounded-full bg-dark border border-white/10 flex items-center justify-center text-gray-400 hover:bg-brand-cyan hover:text-dark hover:border-brand-cyan transition-all duration-300">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                            <a href="#" class="w-10 h-10 rounded-full bg-dark border border-white/10 flex items-center justify-center text-gray-400 hover:bg-brand-cyan hover:text-dark hover:border-brand-cyan transition-all duration-300">
+                                <i class="fab fa-x-twitter"></i>
+                            </a>
+                            <a href="#" class="w-10 h-10 rounded-full bg-dark border border-white/10 flex items-center justify-center text-gray-400 hover:bg-brand-cyan hover:text-dark hover:border-brand-cyan transition-all duration-300">
+                                <i class="fab fa-github"></i>
+                            </a>
+                            <a href="#" class="w-10 h-10 rounded-full bg-dark border border-white/10 flex items-center justify-center text-gray-400 hover:bg-brand-cyan hover:text-dark hover:border-brand-cyan transition-all duration-300">
+                                <i class="fab fa-youtube"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="reveal glass-panel p-8 rounded-xl border border-white/10">
+                    <form class="space-y-6">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-400 mb-2">Name</label>
+                                <input type="text" class="w-full bg-dark/50 border border-white/10 rounded px-4 py-2 text-white focus:outline-none focus:border-brand-cyan transition-colors" placeholder="John Doe">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-400 mb-2">Company</label>
+                                <input type="text" class="w-full bg-dark/50 border border-white/10 rounded px-4 py-2 text-white focus:outline-none focus:border-brand-cyan transition-colors" placeholder="Acme Corp">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-400 mb-2">Email</label>
+                            <input type="email" class="w-full bg-dark/50 border border-white/10 rounded px-4 py-2 text-white focus:outline-none focus:border-brand-cyan transition-colors" placeholder="john@example.com">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-400 mb-2">Automation Requirement</label>
+                            <select class="w-full bg-dark/50 border border-white/10 rounded px-4 py-2 text-white focus:outline-none focus:border-brand-cyan transition-colors appearance-none">
+                                <option>Industrial Robotics</option>
+                                <option>Warehouse Automation</option>
+                                <option>Machine Vision System</option>
+                                <option>Custom Engineering</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-400 mb-2">Message</label>
+                            <textarea rows="4" class="w-full bg-dark/50 border border-white/10 rounded px-4 py-2 text-white focus:outline-none focus:border-brand-cyan transition-colors" placeholder="Describe your operational goals..."></textarea>
+                        </div>
+                        <button type="button" class="w-full py-3 bg-brand-cyan text-dark font-bold rounded hover:bg-white transition-colors">
+                            Submit System Inquiry
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-white/10 pt-16 pb-8 bg-dark relative overflow-hidden">
+        <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdHRlcm4gaWQ9InNtYWxsR3JpZCIgd2lkdGg9IjEwIiBoZWlnaHQ9IjEwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNMTAgMEwwIDBMMCAxMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMDMpIiBzdHJva2Utd2lkdGg9IjAuNSIvPjwvcGF0dGVybj48cmVjdCB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIGZpbGw9InVybCgjc21hbGxHcmlkKSIvPjxwYXRoIGQ9Ik00MCAwTDAgMEwwIDQwIiBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4wNikiIHN0cm9rZS13aWR0aD0iMSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNncmlkKSIvPjwvc3ZnPg==')] opacity-20 pointer-events-none"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+                <div class="space-y-4">
+                    <div class="flex items-center mb-4">
+                        <img src="assets/images/ralab_logo_1790572566323.jpg" alt="R&A Lab Logo" class="h-10 w-10 rounded-lg mr-3 object-cover shadow-[0_0_15px_rgba(0,240,255,0.2)]">
+                        <div class="font-display font-bold text-xl md:text-2xl tracking-wider text-white whitespace-nowrap">
+                            R<span class="text-brand-cyan">&</span>A LAB
+                        </div>
+                    </div>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Pioneering the next generation of industrial robotics, autonomous systems, and intelligent manufacturing solutions.
+                    </p>
+                    <div class="flex space-x-4 pt-2">
+                        <a href="#" class="text-gray-400 hover:text-brand-cyan transition-colors"><i class="fab fa-linkedin text-xl"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-brand-cyan transition-colors"><i class="fab fa-x-twitter text-xl"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-brand-cyan transition-colors"><i class="fab fa-github text-xl"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-brand-cyan transition-colors"><i class="fab fa-youtube text-xl"></i></a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Platform</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#capabilities" class="text-gray-400 hover:text-brand-cyan text-sm transition-colors">Core Capabilities</a></li>
+                        <li><a href="#systems" class="text-gray-400 hover:text-brand-cyan text-sm transition-colors">Systems Showcase</a></li>
+                        <li><a href="#intelligence" class="text-gray-400 hover:text-brand-cyan text-sm transition-colors">Automation Engine</a></li>
+                        <li><a href="#innovation" class="text-gray-400 hover:text-brand-cyan text-sm transition-colors">Innovation Lab</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Company</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-brand-cyan text-sm transition-colors">About Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-brand-cyan text-sm transition-colors">Careers</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-brand-cyan text-sm transition-colors">Press & Media</a></li>
+                        <li><a href="#contact" class="text-gray-400 hover:text-brand-cyan text-sm transition-colors">Contact Engineering</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-semibold mb-4">System Updates</h4>
+                    <p class="text-gray-400 text-sm mb-4">Subscribe to receive intelligence on our latest robotic deployments.</p>
+                    <div class="flex">
+                        <input type="email" placeholder="Enter email address" class="bg-dark/50 border border-white/10 border-r-0 rounded-l px-4 py-2 text-white text-sm w-full focus:outline-none focus:border-brand-cyan focus:ring-1 focus:ring-brand-cyan transition-all">
+                        <button class="bg-brand-cyan text-dark px-4 py-2 rounded-r hover:bg-white transition-colors font-semibold">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+                <p class="text-gray-500 text-sm">&copy; 2026 Robotics & Automation Lab. All rights reserved.</p>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-500 hover:text-white text-sm transition-colors">Privacy Policy</a>
+                    <a href="#" class="text-gray-500 hover:text-white text-sm transition-colors">Terms of Service</a>
+                    <a href="#" class="text-gray-500 hover:text-white text-sm transition-colors">Security</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="fixed bottom-8 right-8 z-50 w-12 h-12 rounded-full bg-brand-cyan text-dark flex items-center justify-center shadow-[0_0_20px_rgba(0,240,255,0.4)] opacity-0 invisible transition-all duration-300 hover:bg-white hover:scale-110 focus:outline-none translate-y-4">
+        <i class="fas fa-arrow-up text-xl"></i>
+    </button>
+
+    <!-- JavaScript -->
+    <script>
+        // Scroll Reveal Animation
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealOptions = {
+            threshold: 0.1,
+            rootMargin: "0px 0px -50px 0px"
+        };
+        const revealObserver = new IntersectionObserver(function(entries, observer) {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) return;
+                entry.target.classList.add('active');
+                observer.unobserve(entry.target);
+            });
+        }, revealOptions);
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        // Sticky Navbar background
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('shadow-lg', 'bg-dark/90');
+                navbar.classList.remove('bg-transparent');
+            } else {
+                navbar.classList.remove('shadow-lg', 'bg-dark/90');
+                navbar.classList.add('bg-transparent');
+            }
+        });
+
+        // Back to Top functionality
+        const backToTopBtn = document.getElementById('back-to-top');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 500) {
+                backToTopBtn.classList.remove('opacity-0', 'invisible', 'translate-y-4');
+                backToTopBtn.classList.add('opacity-100', 'visible', 'translate-y-0');
+            } else {
+                backToTopBtn.classList.add('opacity-0', 'invisible', 'translate-y-4');
+                backToTopBtn.classList.remove('opacity-100', 'visible', 'translate-y-0');
+            }
+        });
+
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Active Nav State Highlighting
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('nav a[href^="#"]');
+        
+        const navObserverOptions = {
+            rootMargin: '-20% 0px -70% 0px',
+            threshold: 0
+        };
+        
+        const navObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.getAttribute('id');
+                    navLinks.forEach(link => {
+                        link.classList.remove('text-brand-cyan');
+                    });
+                    const activeLinks = document.querySelectorAll(`nav a[href="#${id}"]`);
+                    activeLinks.forEach(link => {
+                        link.classList.add('text-brand-cyan');
+                    });
+                }
+            });
+        }, navObserverOptions);
+        
+        sections.forEach(sec => navObserver.observe(sec));
+
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+        
+        // Close mobile menu on link click
+        const mobileLinks = mobileMenu.querySelectorAll('a');
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+
+    </script>
+</body>
+</html>
